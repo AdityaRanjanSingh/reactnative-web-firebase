@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
+import { storeTodoNote, getTodos } from "./firebase";
 export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
 
@@ -18,8 +19,12 @@ export default function App() {
       ...currentGoals,
       { key: Math.random().toString(), value: goalTitle },
     ]);
+    storeTodoNote({ key: Math.random().toString(), value: goalTitle });
   };
-
+  const showTodo = (a) => {
+    setCourseGoals(a);
+  };
+  getTodos(showTodo);
   const removeGoalHandler = (goalId) => {
     setCourseGoals((currentGoals) => {
       return currentGoals.filter((goal) => goal.key !== goalId);
